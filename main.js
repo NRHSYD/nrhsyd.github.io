@@ -1,0 +1,1 @@
+$ = (t) => document.querySelector(t);
