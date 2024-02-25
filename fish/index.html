@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <link rel="icon" href="fish.png">
+<link rel="stylesheet" href="../card.css">
 <link rel="stylesheet" href="fish.css">
 <title>电子木鱼</title>
 </head>
@@ -14,13 +15,22 @@
 <div class="center">
   <img class="fish" src="fish.png" onclick="Knock();">
 </div>
+</div>
 <div class="flex">
   <button onclick="Bgm();">开启沉浸式BGM</button>
   <button onclick="Auto();">自动敲</button>
-  <button onclick="window.open('panel.html');">仪表盘</button>
 </div>
 <audio id="bgm" src="http://chuangshicdn.data.mvbox.cn/music/yc/16/05/18/16051815591951732239.mp3" preload="none" loop hidden></audio>
-<span>敲电子木鱼，见机甲佛祖，颂赛博真经。</span>
+<br><span class="saying" onclick="Panel();">敲电子木鱼，见机甲佛祖，颂赛博真经</span>
+<div class="panel card" hidden>
+  <b>
+    本机总功德：<a class="text" style="margin: 0;"></a>
+  </b>
+  <div class="flex">
+    <button onclick="None();">清除本机功德记录</button>
+    <button onclick="Panel();">关闭</button>
+  </div>
+</div>
 <script src="../main.js"></script>
 <script>
 Count = () => {
@@ -38,6 +48,9 @@ Count = () => {
   t.textContent = "功德 + 1";
   $('.center').appendChild(t);
   setTimeout (() => $('p').remove(), 600);
+  k = document.cookie;
+  k = k != "" ? k: 0;
+  $('.text').textContent = k;
 }
 Knock = () => {
   x = document.createElement('audio');
@@ -81,6 +94,22 @@ document.onkeyup = (e) => {
     Knock();
   }
 };
+k = document.cookie;
+k = k != "" ? k: 0;
+$('.text').textContent = k;
+None = () => {
+  if (confirm("确定清除本机功德记录吗？")) {
+    $('.text').textContent = document.cookie = 0;
+  }
+}
+Panel = () => {
+  p = $('.panel');
+  if (p.hidden) {
+    p.hidden = false;
+  } else {
+    p.hidden = true;
+  }
+}
 </script>
 </body>
 </html>

@@ -1,15 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-  line-height; 1em;
-}
 body {
-  background-color: #f4f5f7;
-  padding: 15px;
-  display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  place-content: center;
   place-items: center;
 }
 .count {
@@ -17,7 +7,7 @@ body {
   font-weight: 700;
   font-family: cursive;
   margin-top: 70px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   max-width: 80vw;
   word-break: break-all;
   display: flex;
@@ -29,16 +19,16 @@ body {
   width: 225px;
   margin-top: 30px;
   margin-bottom: 30px;
+  .card {
+    box-sizing: border-box;
+    width: 225px;
+    margin: 0;
+  }
 }
 .fish {
   transition: .1s;
   width: 225px;
   height: 168px;
-}
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 20px;
 }
 @keyframes fade {
   0% {
@@ -55,19 +45,9 @@ p {
   opacity: 0;
   animation: fade ease-out .6s;
 }
-button {
-  font-size: 12px;
-  font-weight: 700;
-  color: #4360b7;
-  background-color: #e7eeff;
-  padding: .65em .9em;
-  margin: 5px;
-  border-radius: 2em;
-  border: none;
-  transition: .3s;
-}
-button:active { background-color: #d6ddee; }
-span {
-  font-size: 13px;
-  color: #aaa;
+body > .flex > button { margin: 0 4.5px 0 4.5px; }
+.panel {
+  position: fixed;
+  top: 10%;
+  backdrop-filter: blur(10px);
 }
