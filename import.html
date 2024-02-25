@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head lang="zh">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<link rel="icon" href="yuedu.svg">
+<link rel="stylesheet" href="../card.css">
+<title>帮你导入</title>
+</head>
+<body>
+<div class="card">
+  <b>帮你导入</b>
+  <textarea id="url" rows="4" placeholder="请输入资源链接"></textarea>
+  <fieldset>
+    <legend>导入格式</legend>
+    <label>
+      <input type="radio" name="path" value="auto" checked>
+      自动识别
+    </label>
+    <label>
+      <input type="radio" name="path" value="bookSource">
+      书源
+    </label>
+    <label>
+      <input type="radio" name="path" value="rssSource">
+      订阅源
+    </label>
+    <label>
+      <input type="radio" name="path" value="replaceRule">
+      替换规则
+    </label>
+    <label>
+      <input type="radio" name="path" value="textTocRule">
+      TXT目录规则
+    </label>
+    <label>
+      <input type="radio" name="path" value="httpTTS">
+      TTS
+    </label>
+    <label>
+      <input type="radio" name="path" value="theme">
+      主题
+    </label>
+    <label>
+      <input type="radio" name="path" value="readConfig">
+      排版
+    </label>
+  </fieldset>
+  <div class="flex">
+    <button onclick="Import();">点击导入</button>
+    <button onclick="Empty1();">清空</button>
+  </div>
+</div>
+<div class="card">
+  <details>
+    <summary>大佬分享</summary>
+  </details>
+  <div>
+    <fieldset>
+      <legend>书源</legend>
+      <button onclick="SetUrl('https://www.gitlink.org.cn/api/yi-c/yd/raw/sy.json?ref=master★1');">一程</button>
+      <button onclick="SetUrl('https://raw.gitmirror.com/PB-pobing/pobing/pb/sy.json★1');">破冰</button>
+      <button onclick="SetUrl('https://raw.gitmirror.com/zmn001125/booksources/master/sources/guaner.txt★1');">关耳</button>
+      <button onclick="SetUrl('https://raw.gitmirror.com/cyao2q/yuedu/master/shuyuan★1');">漠星曜</button>
+    </fieldset>
+    <fieldset>
+      <legend>订阅源</legend>
+      <button onclick="SetUrl('https://www.gitlink.org.cn/api/yi-c/yd/raw/dy.json?ref=master★2');">一程</button>
+      <button onclick="SetUrl('https://agit.ai/butterfly/yd/raw/branch/yd/迷迭订阅源.json★2');">暗香迷蝶</button>
+    </fieldset>
+  </div>
+</div>
+<script src="../main.js"></script>
+<script src="../clip.js"></script>
+<script>
+Empty1 = () => {
+  Empty('#url');
+  $('[value="auto"]').checked = true;
+}
+Import = () => {
+  t = $('#url');
+  if (!t.value) {
+    t.focus();
+    return false;
+  }
+  path = $('[name="path"]:checked').value;
+  location = `yuedu://import/${path}?src=` + encodeURIComponent(t.value);
+}
+SetUrl = (t) => {
+  x = $('#url');
+  x.value = t.split('★')[0];
+  document.querySelectorAll('[name="path"]')[t.split('★')[1]].checked = true;
+  x.focus();
+  Import();
+}
+</script>
+</body>
+</html>

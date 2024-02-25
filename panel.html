@@ -4,23 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<link rel="icon" href="yuedu.svg">
+<link rel="icon" href="fish.png">
 <link rel="stylesheet" href="../card.css">
-<title>主页</title>
+<title>电子木鱼丨仪表盘</title>
 </head>
 <body>
 <div class="card">
-  <b>欢迎语</b>
+  <b>累积功德</b>
   <div class="text">
-    本站提供一些<a href="https://github.com/gedoor/legado">阅读3.0</a>小工具，<br>希望能对大家有所帮助。( '▽' )/
+    获取中……
   </div>
 </div>
 <div class="card">
-  <b>工具箱</b>
+  <b>设置</b>
   <div class="flex">
-    <button onclick="location='tool.html';">写源助手</button>
-    <button onclick="location='import.html';">帮你导入</button>
+    <button onclick="None();">清除累积功德</button>
   </div>
 </div>
+<script src="../main.js"></script>
+<script>
+$('.text').textContent = document.write(document.cookie);
+None = () => $('.text).textContent = document.cookie = "";
+</script>
 </body>
 </html>

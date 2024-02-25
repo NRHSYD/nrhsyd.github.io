@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+<head lang="zh">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<link rel="icon" href="yuedu.svg">
+<link rel="stylesheet" href="../card.css">
+<title>写源助手</title>
+</head>
+<body>
+<div class="card">
+  <details>
+    <summary>发现格式工具</summary>
+  </details>
+  <div>
+    <textarea id="text" rows="3" placeholder="请输入要处理的内容"></textarea>
+    <a>格式转换</a>
+    <div class="flex">
+      <button onclick="Format();">html转旧发现</button>
+      <button onclick="Switch();">新旧发现互转</button>
+    </div>
+    <a>每行列数<span>仅新发现</span></a>
+    <div class="flex">
+      <button onclick="Add(1);">1</button>
+      <button onclick="Add(.4);">2</button>
+      <button onclick="Add(.25);">3</button>
+      <button onclick="Add(.2);">4</button>
+      <button onclick="Add(.15);">5</button>
+    </div>
+    <a>快捷功能</a>
+    <div class="flex">
+      <button onclick="Copy('#text');">复制全文</button>
+      <button onclick="Cut('#text');">剪切全文</button>
+      <button onclick="Empty('#text');">清空</button>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <details>
+    <summary>正则匹配替换</summary>
+  </details>
+  <div>
+    <textarea id="text1" rows="3" placeholder="请输入要处理的内容"></textarea>
+    <a>正则匹配</a>
+    <textarea id="matchText" rows="1" placeholder="正则表达式"></textarea>
+    <label>
+      <input id="global" type="checkbox" checked>
+      全局搜索
+    </label>
+    <label>
+      <input id="ignoreCase" type="checkbox">
+      忽略大小写
+    </label>
+    <div class="flex">
+      <button onclick="Match();">进行匹配</button>
+      <button onclick="Copy('#matchResult');">复制结果</button>
+      <button onclick="Reset();">清空</button>
+    </div>
+    <div id="tip"></div>
+    <textarea id="matchResult" rows="3" placeholder="匹配结果"></textarea>
+    <a>正则替换</a>
+    <textarea id="replaceText" rows="1" placeholder="想要替换成什么"></textarea>
+    <div class="flex">
+      <button onclick="Add1('{\{page}}');">{&#123;page}}</button>
+      <button onclick="Add1('\\');">&#92;</button>
+      <button onclick="Add1('&#60;');">&#60;</button>
+      <button onclick="Add1('&#62;');">&#62;</button>
+    </div>
+    <div class="flex">
+      <button onclick="Replace();">进行替换</button>
+      <button onclick="Copy('#replaceResult');">复制结果</button>
+    </div>
+    <textarea id="replaceResult" rows="3" placeholder="替换结果"></textarea>
+  </div>
+</div>
+<div class="card">
+  <details>
+    <summary>编码格式转换</summary>
+  </details>
+  <div>
+    <textarea id="text2" rows="3" placeholder="请输入要处理的内容"></textarea>
+    <a>url编码</a>
+    <label>
+      <input id="ignoreComponent" type="checkbox">
+      编码<span>@#$&#38;=:/,;?+</span>
+    </label>
+    <div class="flex">
+      <button onclick="Encode();">进行编码</button>
+      <button onclick="Decode();">进行解码</button>
+    </div>
+    <a>html转义</a>
+    <label>
+      <input id="super" type="checkbox">
+      转义全部字符
+    </label>
+    <div id="temp" hidden></div>
+    <div class="flex">
+      <button onclick="EncodeHtml();">进行转义</button>
+      <button onclick="DecodeHtml();">进行反转义</button>
+    </div>
+    <a>快捷功能</a>
+    <div class="flex">
+      <button onclick="Copy('#text2');">复制全文</button>
+      <button onclick="Cut('#text2');">剪切全文</button>
+      <button onclick="Empty('#text2');">清空</button>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <details>
+    <summary>外部在线工具</summary>
+  </details>
+  <div>
+    <div class="flex">
+      <button onclick="window.open('https://www.iamwawa.cn/jianfanti.html');">简繁转换</button>
+      <button onclick="window.open('https://www.yuque.com/legado/yuan');">写源教程</button>
+    </div>
+  </div>
+</div>
+<script src="../main.js"></script>
+<script src="../clip.js"></script>
+<script>
+Cut = (t) => {
+  $(t).select();
+  $$('cut');
+}
+Format = () => {
+  t = $('#text');
+  list = t.value.match(/<[^<]*?(href|open)[=\(]['"](.*?)['"].*?>(.*?)</g);
+  if (list) {
+    html = "";
+    for (i = 0; i < list.length; ++i) {
+      a = list[i].match(/<[^<]*?(href|open)[=\(]['"](.*?)['"].*?>(.*?)</);
+      html += a[3] + "::" + a[2] + "\r\n"
+    };
+    t.value = html.replace(/\r\n$/, '');
+  }
+}
+Switch = () => {
+  t = $('#text');
+  try {
+    html = "";
+    json = JSON.parse(t.value);
+    for (i = 0; i < json.length; ++i) {
+      html += json[i].title + "::" + json[i].url + "\r\n"
+    };
+    t.value = html.replace(/\r\n$/, '');
+  } catch(err) {
+    if (t.value.match(/\&\&|::/g)) {
+      text = t.value.replace(/\&\&/g, '\r\n');
+      list = text.match(/.*?::.*/g);
+      html = [];
+      for (i = 0; i < list.length; ++i) {
+        a = list[i].match(/(.*?)::(.*)/);
+        html.push({
+          title: a[1],
+          url: a[2],
+        });
+      };
+      t.value = JSON.stringify(html);
+    }
+  }
+}
+Add = (t) => {
+  x = $('#text');
+  try {
+    json = JSON.parse(x.value);
+    for (i = 0; i < json.length; ++i) {
+      json[i].style = {
+        layout_flexGrow: 1,
+        layout_flexBasisPercent: t,
+      }
+    };
+    x.value = JSON.stringify(json);
+  } catch(err) {
+    "";
+  }
+}
+BuildRegex = () => {
+  text = $('#text1');
+  if (!text.value) {
+    text.focus();
+    return false;
+  }
+  match = $('#matchText');
+  if (!match.value) {
+    match.focus();
+    return false;
+  }
+  op = $('#global').checked ? "g": "";
+  op = $('#ignoreCase').checked ? op + "i": op;
+  return new RegExp(match.value, op);
+}
+Match = () => {
+  regex = BuildRegex();
+  t = $('#tip');
+  x = $('#matchResult');
+  tip = text = t.textContent = t.style = x.value = "";
+  match = $('#text1').value.match(regex);
+  if ($('#global').checked) {
+    for (i = 0; i < match.length; ++i) {
+      text += match[i] + "\r\n";
+    };
+    tip = "共找到 " + match.length + " 处匹配：\r\n";
+    text = text.replace(/\r\n$/, '');
+  } else {
+    tip = "匹配位置：" + regex.lastIndex;
+    text = match[0];
+  }
+  t.textContent = tip;
+  t.style.marginTop = "9px";
+  x.value = text;
+  return true;
+}
+Reset = () => {
+  $('#text1').value = $('#matchText').value = $('#tip').textContent = t.style = $('#matchResult').value = $('#replaceText').value = $('#replaceResult').value = "";
+  $('#text1').focus();
+}
+Add1 = (t) => {
+  x = $('#replaceText');
+  start = x.selectionStart;
+  length = x.selectionEnd - start;
+  json = x.value.split('');
+  json.splice(start, length, t);
+  x.value = json.join('');
+  x.focus();
+  x.selectionStart = t.length + start;
+  x.selectionEnd = t.length + start;
+}
+Replace = () => {
+  regex = BuildRegex();
+  $('#replaceResult').value = $('#text1').value.replace(regex, $('#replaceText').value);
+}
+Encode = () => {
+  t = $('#text2');
+  text = t.value;
+  t.value = $('#ignoreComponent').checked ? encodeURIComponent(text): encodeURI(text);
+}
+Decode = () => {
+  t = $('#text2');
+  text = t.value;
+  t.value = decodeURIComponent(text);
+}
+EncodeHtml = () => {
+  t = $('#text2');
+  text = t.value;
+  if ($('#super').checked) {
+    u = "";
+    for (i = 0; i < text.length; ++i){
+      u += "&#" + text.charCodeAt(i) + ";";
+    };
+  } else {
+    x = $('#temp');
+    x.textContent = text;
+    u = x.innerHTML;
+  }
+  t.value = u;
+}
+DecodeHtml = () => {
+  t = $('#text2');
+  text = t.value;
+  x = $('#temp');
+  x.innerHTML = text
+  .replace(/<br>/g, '\r\n')
+  .replace(/</g, '&#60\;')
+  .replace(/>/g, '&#62\;');
+  t.value = x.textContent;
+}
+</script>
+</body>
+</html>
