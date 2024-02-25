@@ -18,13 +18,17 @@
 <div class="card">
   <b>设置</b>
   <div class="flex">
-    <button onclick="None();">清除累积功德</button>
+    <button onclick="None();">送出所有功德</button>
   </div>
 </div>
 <script src="../main.js"></script>
 <script>
 $('.text').textContent = document.cookie;
-None = () => $('.text').textContent = document.cookie = 0;
+None = () => {
+  if (confirm("确定送出所有功德？你的功德将会归零！")) {
+    $('.text').textContent = document.cookie = 0);
+    alert("功德已送出，你冥冥中又有感悟。");
+}
 </script>
 </body>
 </html>
