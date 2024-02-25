@@ -11,9 +11,7 @@
 <body>
 <div class="card">
   <b>累积功德</b>
-  <div class="text">
-    获取中……
-  </div>
+  <div class="text"></div>
 </div>
 <div class="card">
   <b>设置</b>
@@ -23,11 +21,13 @@
 </div>
 <script src="../main.js"></script>
 <script>
-$('.text').textContent = document.cookie;
+c = document.cookie;
+c = c != "" ? c: 0;
+$('.text').textContent = c;
 None = () => {
-  if (confirm("确定送出所有功德？你的功德将会归零！")) {
-    $('.text').textContent = document.cookie = 0);
-    alert("功德已送出，你冥冥中又有感悟。");
+  if (confirm("确定送出累积的所有功德吗？\r\n注意：你的功德将归零！")) {
+    $('.text').textContent = document.cookie = 0;
+    alert("功德已经送往不知名处。\r\n见此，你似乎有所感悟，佛法更进一步。");
   }
 }
 </script>
