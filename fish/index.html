@@ -33,11 +33,15 @@
 </div>
 <script src="../main.js"></script>
 <script>
+k = localStorage.getItem('Count');
+k = k > 0 ? k: 0;
+$('.text').textContent = k;
 Count = () => {
   c = $('.count');
   f = $('.fish');
   c.textContent = ++c.textContent;
-  document.cookie = ++document.cookie;
+  k = $('.text').textContent = ++k;
+  localStorage.setItem('Count', k);
   c.style.transform = "scale(1.15)";
   f.style.transform = "scale(.95)";
   setTimeout (() => {
@@ -48,9 +52,6 @@ Count = () => {
   t.textContent = "功德 + 1";
   $('.center').appendChild(t);
   setTimeout (() => $('p').remove(), 600);
-  k = document.cookie;
-  k = k != "" ? k: 0;
-  $('.text').textContent = k;
 }
 Knock = () => {
   x = document.createElement('audio');
@@ -89,19 +90,6 @@ Auto = () => {
     s.textContent = "自动敲";
   }
 }
-document.onkeyup = (e) => {
-  if (e.key === " ") {
-    Knock();
-  }
-};
-k = document.cookie;
-k = k != "" ? k: 0;
-$('.text').textContent = k;
-None = () => {
-  if (confirm("确定清除本机功德记录吗？")) {
-    $('.text').textContent = document.cookie = 0;
-  }
-}
 Panel = () => {
   p = $('.panel');
   if (p.hidden) {
@@ -110,6 +98,17 @@ Panel = () => {
     p.hidden = true;
   }
 }
+None = () => {
+  if (confirm("确定清除本机功德记录吗？")) {
+    $('.text').textContent = 0;
+    localStorage.removeItem('Count');
+  }
+}
+document.onkeyup = (e) => {
+  if (e.key === " ") {
+    Knock();
+  }
+};
 </script>
 </body>
 </html>
