@@ -39,7 +39,8 @@ Count = () => {
   c = $('.count');
   f = $('.fish');
   c.textContent = ++c.textContent;
-  document.cookie = `count = ${k}; max-age = 60 * 60 * 365`;
+  k = ++k;
+  document.cookie = `count=${k};max-age=60*60*365`;
   $('.text').textContent = document.cookie;
   c.style.transform = "scale(1.15)";
   f.style.transform = "scale(.95)";
@@ -99,7 +100,8 @@ Panel = () => {
 }
 None = () => {
   if (confirm("确定清除本机功德记录吗？")) {
-    document.cookie = $('.text').textContent = 0;
+    document.cookie = "";
+    $('.text').textContent = 0;
   }
 }
 document.onkeyup = (e) => {
