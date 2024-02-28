@@ -34,14 +34,13 @@
 <script src="../main.js"></script>
 <script>
 k = document.cookie;
-k = k > 0 ? k: 0;
 $('.text').textContent = k;
 Count = () => {
   c = $('.count');
   f = $('.fish');
   c.textContent = ++c.textContent;
-  k = $('.text').textContent = ++k;
-  document.cookie = k + ";max-age=60*60*730";
+  document.cookie = `count = ${k}; max-age = 60 * 60 * 365`;
+  $('.text').textContent = document.cookie;
   c.style.transform = "scale(1.15)";
   f.style.transform = "scale(.95)";
   setTimeout (() => {
@@ -100,8 +99,7 @@ Panel = () => {
 }
 None = () => {
   if (confirm("确定清除本机功德记录吗？")) {
-    document.cookie = "";
-    $('.text').textContent = 0;
+    document.cookie = $('.text').textContent = 0;
   }
 }
 document.onkeyup = (e) => {
