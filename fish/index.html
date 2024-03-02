@@ -33,14 +33,17 @@
 </div>
 <script src="../main.js"></script>
 <script>
-k = document.cookie;
-$('.text').textContent = k;
+k = localStorage.getItem('Count');
+k = k > 0 ? k: 0;
+o = $('.text');
+o.textContent = k;
 Count = () => {
   c = $('.count');
   f = $('.fish');
   c.textContent = ++c.textContent;
   k = ++k;
-  document.cookie = `count=${k};max-age=60*60*365`;
+  localStorage.setItem('Count', k);
+  o.textContent = k;
   $('.text').textContent = document.cookie;
   c.style.transform = "scale(1.15)";
   f.style.transform = "scale(.95)";
@@ -100,8 +103,8 @@ Panel = () => {
 }
 None = () => {
   if (confirm("确定清除本机功德记录吗？")) {
-    document.cookie = "";
-    $('.text').textContent = 0;
+    o.textContent = 0;
+    localStorage.removeItem('Count');
   }
 }
 document.onkeyup = (e) => {
